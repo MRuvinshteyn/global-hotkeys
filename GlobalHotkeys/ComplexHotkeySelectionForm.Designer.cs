@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             searchBar = new TextBox();
-            listView = new ListView();
             cancelButton = new Button();
+            flowLayoutPanel = new FlowLayoutPanel();
             SuspendLayout();
             // 
             // searchBar
@@ -40,14 +40,6 @@
             searchBar.Name = "searchBar";
             searchBar.Size = new Size(200, 23);
             searchBar.TabIndex = 0;
-            // 
-            // listView
-            // 
-            listView.Location = new Point(42, 49);
-            listView.Name = "listView";
-            listView.Size = new Size(300, 156);
-            listView.TabIndex = 1;
-            listView.UseCompatibleStateImageBehavior = false;
             // 
             // cancelButton
             // 
@@ -60,13 +52,23 @@
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
             // 
+            // flowLayoutPanel
+            // 
+            flowLayoutPanel.AutoScroll = true;
+            flowLayoutPanel.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel.Location = new Point(12, 41);
+            flowLayoutPanel.Name = "flowLayoutPanel";
+            flowLayoutPanel.Size = new Size(360, 173);
+            flowLayoutPanel.TabIndex = 6;
+            flowLayoutPanel.WrapContents = false;
+            // 
             // ComplexHotkeySelectionForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(384, 261);
+            Controls.Add(flowLayoutPanel);
             Controls.Add(cancelButton);
-            Controls.Add(listView);
             Controls.Add(searchBar);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ComplexHotkeySelectionForm";
@@ -78,7 +80,7 @@
         #endregion
 
         private TextBox searchBar;
-        private ListView listView;
         private Button cancelButton;
+        private FlowLayoutPanel flowLayoutPanel;
     }
 }
