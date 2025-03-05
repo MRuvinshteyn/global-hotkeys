@@ -52,7 +52,7 @@
             usernameButton2.Location = new Point(100, 120);
             usernameButton2.Name = "usernameButton2";
             usernameButton2.Size = new Size(100, 30);
-            usernameButton2.TabIndex = 1;
+            usernameButton2.TabIndex = 2;
             usernameButton2.Text = "Username 2";
             usernameButton2.UseVisualStyleBackColor = true;
             usernameButton2.Click += usernameButton2_Click;
@@ -62,7 +62,7 @@
             passwordButton1.Location = new Point(240, 40);
             passwordButton1.Name = "passwordButton1";
             passwordButton1.Size = new Size(100, 30);
-            passwordButton1.TabIndex = 2;
+            passwordButton1.TabIndex = 1;
             passwordButton1.Text = "Password 1";
             passwordButton1.UseVisualStyleBackColor = true;
             passwordButton1.Click += passwordButton1_Click;
@@ -101,7 +101,7 @@
             cancelButton.Location = new Point(150, 220);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(100, 30);
-            cancelButton.TabIndex = 6;
+            cancelButton.TabIndex = 4;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
