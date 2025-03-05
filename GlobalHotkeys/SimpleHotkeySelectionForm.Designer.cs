@@ -98,7 +98,7 @@
             // cancelButton
             // 
             cancelButton.Anchor = AnchorStyles.None;
-            cancelButton.Location = new Point(150, 220);
+            cancelButton.Location = new Point(142, 220);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(100, 30);
             cancelButton.TabIndex = 4;
