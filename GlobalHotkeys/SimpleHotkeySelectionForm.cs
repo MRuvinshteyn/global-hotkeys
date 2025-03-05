@@ -2,9 +2,13 @@ namespace GlobalHotkeys
 {
     public partial class SimpleHotkeySelectionForm : Form
     {
-        public SimpleHotkeySelectionForm()
+        private readonly IntPtr previousWindow;
+
+        public SimpleHotkeySelectionForm(IntPtr previousWindow)
         {
             InitializeComponent();
+
+            this.previousWindow = previousWindow;
         }
 
         private void usernameButton1_Click(object sender, EventArgs e)
