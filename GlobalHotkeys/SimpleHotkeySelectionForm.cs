@@ -85,7 +85,7 @@ namespace GlobalHotkeys
             if (newY + popupHeight > screen.Bottom) newY = screen.Bottom - popupHeight - padding;
 
             StartPosition = FormStartPosition.Manual;
-            Location = new System.Drawing.Point(newX, newY);
+            Location = new Point(newX, newY);
         }
     }
 }
