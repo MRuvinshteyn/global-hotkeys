@@ -18,6 +18,8 @@ namespace GlobalHotkeys
             this.previousWindow = previousWindow;
 
             PositionNearCursor();
+
+            Deactivate += (sender, e) => { Close(); };
         }
 
         private void usernameButton1_Click(object sender, EventArgs e)
