@@ -16,6 +16,8 @@ namespace GlobalHotkeys
             InitializeComponent();
 
             this.previousWindow = previousWindow;
+
+            PositionNearCursor();
         }
 
         private void usernameButton1_Click(object sender, EventArgs e)
@@ -61,6 +63,27 @@ namespace GlobalHotkeys
                 Thread.Sleep(100); // Wait up to 2 seconds for previous window to be in focus
             }
             SendKeys.SendWait("^v");
+        }
+
+        private void PositionNearCursor()
+        {
+            var cursorPosition = Cursor.Position;
+            var screen = Screen.FromPoint(cursorPosition).WorkingArea;
+
+            int popupWidth = Width;
+            int popupHeight = Height;
+            int padding = 10;
+
+            // Start with position next to cursor
+            int newX = cursorPosition.X + padding;
+            int newY = cursorPosition.Y + padding;
+
+            // Check bounds to prevent overflow
+            if (newX + popupWidth > screen.Right) newX = screen.Right - popupWidth - padding;
+            if (newY + popupHeight > screen.Bottom) newY = screen.Bottom - popupHeight - padding;
+
+            StartPosition = FormStartPosition.Manual;
+            Location = new System.Drawing.Point(newX, newY);
         }
     }
 }
