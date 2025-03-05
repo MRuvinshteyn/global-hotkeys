@@ -118,6 +118,7 @@
             Controls.Add(passwordButton1);
             Controls.Add(usernameButton2);
             Controls.Add(usernameButton1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "SimpleHotkeySelectionForm";
             Text = "Simple Selection Form";
             ResumeLayout(false);
