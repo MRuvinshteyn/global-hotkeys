@@ -1,12 +1,22 @@
-﻿namespace GlobalHotkeys
+﻿using System.Runtime.InteropServices;
+
+namespace GlobalHotkeys
 {
     public partial class ComplexHotkeySelectionForm : Form
     {
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private readonly IntPtr previousWindow;
         private readonly List<(string, string, string)> accounts;
 
-        public ComplexHotkeySelectionForm()
+        public ComplexHotkeySelectionForm(IntPtr previousWindow)
         {
             InitializeComponent();
+
+            this.previousWindow = previousWindow;
 
             PositionNearCursor();
 
@@ -55,11 +65,51 @@
                     Size = new Size(100, 23),
                     Margin = new Padding(3)
                 });
-                rowPanel.Controls.Add(new Button() { Text = account.Item2, Width = 100, AutoEllipsis = true });
-                rowPanel.Controls.Add(new Button() { Text = account.Item3, Width = 100, AutoEllipsis = true });
+
+                var usernameButton = new Button()
+                {
+                    Text = account.Item2,
+                    Width = 100,
+                    AutoEllipsis = true
+                };
+                usernameButton.Click += (sender, e) =>
+                {
+                    PasteText(account.Item2);
+                    Close();
+                };
+                rowPanel.Controls.Add(usernameButton);
+
+                var passwordButton = new Button()
+                {
+                    Text = account.Item3,
+                    Width = 100,
+                    AutoEllipsis = true
+                };
+                passwordButton.Click += (sender, e) =>
+                {
+                    PasteText(account.Item3);
+                    Close();
+                };
+                rowPanel.Controls.Add(passwordButton);
 
                 flowLayoutPanel.Controls.Add(rowPanel);
             }
+        }
+
+        private void PasteText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            Clipboard.SetText(text);
+            SetForegroundWindow(previousWindow);
+            for (int i = 0; GetForegroundWindow() != previousWindow && i < 20; ++i)
+            {
+                Thread.Sleep(100); // Wait up to 2 seconds for previous window to be in focus
+            }
+            SendKeys.SendWait("^v");
         }
 
         private void PositionNearCursor()

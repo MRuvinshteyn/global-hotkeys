@@ -82,7 +82,7 @@ namespace GlobalHotkeys
         private void ShowComplexSelectionWindow()
         {
             lastFocusedWindow = GetForegroundWindow(); // Save the currently focused window
-            var popup = new ComplexHotkeySelectionForm();
+            var popup = new ComplexHotkeySelectionForm(lastFocusedWindow);
             popup.Show();
 
             // Ensure the popup is always in the foreground
