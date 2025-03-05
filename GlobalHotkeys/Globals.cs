@@ -2,10 +2,12 @@
 {
     internal class Globals
     {
-        public static int HOTKEY_ID = 9000;
+        public static int HOTKEY_ID_1 = 9000;
+        public static int HOTKEY_ID_2 = 9001;
 
         public static int MOD_CONTROL_SHIFT = 0x0002 | 0x0004; // Ctrl + Shift
         public static int VK_U = 0x55; // 'U' key
+        public static int VK_I = 0x49; // 'I' key
 
         public const int SW_RESTORE = 9;
         public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);

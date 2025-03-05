@@ -43,13 +43,19 @@ namespace GlobalHotkeys
                 using (Form hiddenForm = new Form())
                 {
                     handle = hiddenForm.Handle; // Creates a hidden window to register the hotkey
-                    bool registered = RegisterHotKey(handle, Globals.HOTKEY_ID, Globals.MOD_CONTROL_SHIFT, Globals.VK_U);
+                    bool registered = RegisterHotKey(handle, Globals.HOTKEY_ID_1, Globals.MOD_CONTROL_SHIFT, Globals.VK_U);
                     if (!registered)
                     {
-                        MessageBox.Show("Failed to register hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Failed to register simple hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    Application.AddMessageFilter(new HotkeyMessageFilter(ShowSimpleSelectionWindow));
+                    registered = RegisterHotKey(handle, Globals.HOTKEY_ID_2, Globals.MOD_CONTROL_SHIFT, Globals.VK_I);
+                    if (!registered)
+                    {
+                        MessageBox.Show("Failed to register complex hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    Application.AddMessageFilter(new HotkeyMessageFilter(ShowSimpleSelectionWindow, ShowComplexSelectionWindow));
                     Application.Run();
                 }
             })
@@ -73,9 +79,23 @@ namespace GlobalHotkeys
             SetWindowPos(popupHandle, Globals.HWND_TOPMOST, 0, 0, 0, 0, Globals.SWP_NOMOVE | Globals.SWP_NOSIZE | Globals.SWP_SHOWWINDOW);
         }
 
+        private void ShowComplexSelectionWindow()
+        {
+            lastFocusedWindow = GetForegroundWindow(); // Save the currently focused window
+            var popup = new ComplexHotkeySelectionForm();
+            popup.Show();
+
+            // Ensure the popup is always in the foreground
+            IntPtr popupHandle = popup.Handle;
+            ShowWindow(popupHandle, Globals.SW_RESTORE);
+            SetForegroundWindow(popupHandle);
+            SetWindowPos(popupHandle, Globals.HWND_TOPMOST, 0, 0, 0, 0, Globals.SWP_NOMOVE | Globals.SWP_NOSIZE | Globals.SWP_SHOWWINDOW);
+        }
+
         private void Exit(object sender, EventArgs e)
         {
-            UnregisterHotKey(handle, Globals.HOTKEY_ID);
+            UnregisterHotKey(handle, Globals.HOTKEY_ID_1);
+            UnregisterHotKey(handle, Globals.HOTKEY_ID_2);
             trayIcon.Visible = false;
             Application.Exit();
         }
@@ -84,7 +104,8 @@ namespace GlobalHotkeys
         {
             if (disposing)
             {
-                UnregisterHotKey(handle, Globals.HOTKEY_ID);
+                UnregisterHotKey(handle, Globals.HOTKEY_ID_1);
+                UnregisterHotKey(handle, Globals.HOTKEY_ID_2);
                 trayIcon.Dispose();
             }
             base.Dispose(disposing);
