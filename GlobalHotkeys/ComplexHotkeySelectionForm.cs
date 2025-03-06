@@ -35,6 +35,8 @@ namespace GlobalHotkeys
             ];
 
             PopulateAccounts();
+
+            Deactivate += (sender, e) => { Close(); };
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
