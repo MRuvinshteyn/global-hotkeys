@@ -10,7 +10,7 @@ namespace GlobalHotkeys
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         private readonly IntPtr previousWindow;
-        private readonly List<(string, string, string)> accounts;
+        private readonly Dictionary<Guid, (string, string, string)> accounts;
 
         public ComplexHotkeySelectionForm(IntPtr previousWindow)
         {
@@ -21,18 +21,18 @@ namespace GlobalHotkeys
             PositionNearCursor();
 
             // Hardcode accounts for demo purposes
-            accounts = [
-                ("Account 1", "Username 1", "Password 1"),
-                ("Account 2", "Username 2", "Password 2"),
-                ("Account 3", "Username 3", "Password 3"),
-                ("Account 4", "Username 4", "Password 4"),
-                ("Account 5", "Username 5", "Password 5"),
-                ("Account 6", "Username 6", "Password 6"),
-                ("Account 7", "Username 7", "Password 7"),
-                ("Account 8", "Username 8", "Password 8"),
-                ("Account 9", "Username 9", "Password 9"),
-                ("Account 10", "Username 10", "Password 10"),
-            ];
+            accounts = new Dictionary<Guid, (string, string, string)>() {
+                { Guid.NewGuid(), ("Account 1", "Username 1", "Password 1") },
+                { Guid.NewGuid(), ("Account 2", "Username 2", "Password 2") },
+                { Guid.NewGuid(), ("Account 3", "Username 3", "Password 3") },
+                { Guid.NewGuid(), ("Account 4", "Username 4", "Password 4") },
+                { Guid.NewGuid(), ("Account 5", "Username 5", "Password 5") },
+                { Guid.NewGuid(), ("Account 6", "Username 6", "Password 6") },
+                { Guid.NewGuid(), ("Account 7", "Username 7", "Password 7") },
+                { Guid.NewGuid(), ("Account 8", "Username 8", "Password 8") },
+                { Guid.NewGuid(), ("Account 9", "Username 9", "Password 9") },
+                { Guid.NewGuid(), ("Account 10", "Username 10", "Password 10") }
+            };
 
             PopulateAccounts();
 
@@ -48,23 +48,23 @@ namespace GlobalHotkeys
         {
             flowLayoutPanel.Controls.Clear();
 
-            List<(string, string, string)> filteredAccounts;
+            Dictionary<Guid, (string, string, string)> filteredAccounts;
             if (!string.IsNullOrEmpty(query))
             {
                 filteredAccounts = accounts
-                    .Where(account => 
-                        account.Item1.Contains(query, StringComparison.CurrentCultureIgnoreCase) || 
-                        account.Item2.Contains(query, StringComparison.CurrentCultureIgnoreCase) || 
-                        account.Item3.Contains(query, StringComparison.CurrentCultureIgnoreCase))
-                    .ToList();
+                    .Where(kvp => 
+                        kvp.Value.Item1.Contains(query, StringComparison.CurrentCultureIgnoreCase) || 
+                        kvp.Value.Item2.Contains(query, StringComparison.CurrentCultureIgnoreCase) || 
+                        kvp.Value.Item3.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                    .ToDictionary();
             }
             else
             {
-                filteredAccounts = new List<(string, string, string)>(accounts);
+                filteredAccounts = new Dictionary<Guid, (string, string, string)>(accounts);
             }
 
             // Add a row in the FlowLayoutPanel per account
-            foreach (var account in filteredAccounts)
+            foreach (var id in filteredAccounts.Keys)
             {
                 var rowPanel = new FlowLayoutPanel()
                 {
@@ -78,7 +78,7 @@ namespace GlobalHotkeys
                 // Add a label and two buttons for each account
                 rowPanel.Controls.Add(new Label()
                 {
-                    Text = account.Item1,
+                    Text = filteredAccounts[id].Item1,
                     TextAlign = ContentAlignment.MiddleLeft,
                     AutoEllipsis = true,
                     Size = new Size(100, 23),
@@ -87,26 +87,26 @@ namespace GlobalHotkeys
 
                 var usernameButton = new Button()
                 {
-                    Text = account.Item2,
+                    Text = filteredAccounts[id].Item2,
                     Width = 100,
                     AutoEllipsis = true
                 };
                 usernameButton.Click += (sender, e) =>
                 {
-                    PasteText(account.Item2);
+                    PasteText(filteredAccounts[id].Item2);
                     Close();
                 };
                 rowPanel.Controls.Add(usernameButton);
 
                 var passwordButton = new Button()
                 {
-                    Text = account.Item3,
+                    Text = filteredAccounts[id].Item3,
                     Width = 100,
                     AutoEllipsis = true
                 };
                 passwordButton.Click += (sender, e) =>
                 {
-                    PasteText(account.Item3);
+                    PasteText(filteredAccounts[id].Item3);
                     Close();
                 };
                 rowPanel.Controls.Add(passwordButton);
