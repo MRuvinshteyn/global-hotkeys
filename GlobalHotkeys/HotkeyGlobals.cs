@@ -1,6 +1,6 @@
 ﻿namespace GlobalHotkeys
 {
-    internal class Globals
+    public class HotkeyGlobals
     {
         public static int HOTKEY_ID_1 = 9000;
         public static int HOTKEY_ID_2 = 9001;

@@ -1,6 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using GlobalHotkeys;
+using System.Runtime.InteropServices;
 
-namespace GlobalHotkeys
+namespace CentralTrayApplication
 {
     internal class TrayApplication : ApplicationContext
     {
@@ -43,13 +44,13 @@ namespace GlobalHotkeys
                 using (Form hiddenForm = new Form())
                 {
                     handle = hiddenForm.Handle; // Creates a hidden window to register the hotkey
-                    bool registered = RegisterHotKey(handle, Globals.HOTKEY_ID_1, Globals.MOD_CONTROL_SHIFT, Globals.VK_U);
+                    bool registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_1, HotkeyGlobals.MOD_CONTROL_SHIFT, HotkeyGlobals.VK_U);
                     if (!registered)
                     {
                         MessageBox.Show("Failed to register simple hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    registered = RegisterHotKey(handle, Globals.HOTKEY_ID_2, Globals.MOD_CONTROL_SHIFT, Globals.VK_I);
+                    registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_2, HotkeyGlobals.MOD_CONTROL_SHIFT, HotkeyGlobals.VK_I);
                     if (!registered)
                     {
                         MessageBox.Show("Failed to register complex hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -74,9 +75,9 @@ namespace GlobalHotkeys
 
             // Ensure the popup is always in the foreground
             IntPtr popupHandle = popup.Handle;
-            ShowWindow(popupHandle, Globals.SW_RESTORE);
+            ShowWindow(popupHandle, HotkeyGlobals.SW_RESTORE);
             SetForegroundWindow(popupHandle);
-            SetWindowPos(popupHandle, Globals.HWND_TOPMOST, 0, 0, 0, 0, Globals.SWP_NOMOVE | Globals.SWP_NOSIZE | Globals.SWP_SHOWWINDOW);
+            SetWindowPos(popupHandle, HotkeyGlobals.HWND_TOPMOST, 0, 0, 0, 0, HotkeyGlobals.SWP_NOMOVE | HotkeyGlobals.SWP_NOSIZE | HotkeyGlobals.SWP_SHOWWINDOW);
         }
 
         private void ShowComplexSelectionWindow()
@@ -87,15 +88,15 @@ namespace GlobalHotkeys
 
             // Ensure the popup is always in the foreground
             IntPtr popupHandle = popup.Handle;
-            ShowWindow(popupHandle, Globals.SW_RESTORE);
+            ShowWindow(popupHandle, HotkeyGlobals.SW_RESTORE);
             SetForegroundWindow(popupHandle);
-            SetWindowPos(popupHandle, Globals.HWND_TOPMOST, 0, 0, 0, 0, Globals.SWP_NOMOVE | Globals.SWP_NOSIZE | Globals.SWP_SHOWWINDOW);
+            SetWindowPos(popupHandle, HotkeyGlobals.HWND_TOPMOST, 0, 0, 0, 0, HotkeyGlobals.SWP_NOMOVE | HotkeyGlobals.SWP_NOSIZE | HotkeyGlobals.SWP_SHOWWINDOW);
         }
 
         private void Exit(object sender, EventArgs e)
         {
-            UnregisterHotKey(handle, Globals.HOTKEY_ID_1);
-            UnregisterHotKey(handle, Globals.HOTKEY_ID_2);
+            UnregisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_1);
+            UnregisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_2);
             trayIcon.Visible = false;
             Application.Exit();
         }
@@ -104,8 +105,8 @@ namespace GlobalHotkeys
         {
             if (disposing)
             {
-                UnregisterHotKey(handle, Globals.HOTKEY_ID_1);
-                UnregisterHotKey(handle, Globals.HOTKEY_ID_2);
+                UnregisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_1);
+                UnregisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_2);
                 trayIcon.Dispose();
             }
             base.Dispose(disposing);

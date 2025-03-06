@@ -1,4 +1,4 @@
-namespace GlobalHotkeys
+namespace CentralTrayApplication
 {
     internal static class Program
     {
