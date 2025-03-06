@@ -40,6 +40,7 @@
             searchBar.Name = "searchBar";
             searchBar.Size = new Size(200, 23);
             searchBar.TabIndex = 0;
+            searchBar.TextChanged += searchBar_TextChanged;
             // 
             // cancelButton
             // 

@@ -42,10 +42,27 @@ namespace GlobalHotkeys
             Close();
         }
 
-        private void PopulateAccounts()
+        private void PopulateAccounts(string query = "")
         {
+            flowLayoutPanel.Controls.Clear();
+
+            List<(string, string, string)> filteredAccounts;
+            if (!string.IsNullOrEmpty(query))
+            {
+                filteredAccounts = accounts
+                    .Where(account => 
+                        account.Item1.Contains(query, StringComparison.CurrentCultureIgnoreCase) || 
+                        account.Item2.Contains(query, StringComparison.CurrentCultureIgnoreCase) || 
+                        account.Item3.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                    .ToList();
+            }
+            else
+            {
+                filteredAccounts = new List<(string, string, string)>(accounts);
+            }
+
             // Add a row in the FlowLayoutPanel per account
-            foreach (var account in accounts)
+            foreach (var account in filteredAccounts)
             {
                 var rowPanel = new FlowLayoutPanel()
                 {
@@ -131,6 +148,14 @@ namespace GlobalHotkeys
 
             StartPosition = FormStartPosition.Manual;
             Location = new Point(newX, newY);
+        }
+
+        private void searchBar_TextChanged(object sender, EventArgs e)
+        {
+            if (sender is TextBox search)
+            {
+                PopulateAccounts(search.Text);
+            }
         }
     }
 }
