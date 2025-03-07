@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using WindowsInput;
 
 namespace GlobalHotkeys
 {
@@ -58,13 +59,14 @@ namespace GlobalHotkeys
                 return;
             }
 
-            Clipboard.SetText(text);
             SetForegroundWindow(previousWindow);
             for (int i = 0; GetForegroundWindow() != previousWindow && i < 20; ++i)
             {
                 Thread.Sleep(100); // Wait up to 2 seconds for previous window to be in focus
             }
-            SendKeys.SendWait("^v");
+
+            var sim = new InputSimulator();
+            sim.Keyboard.TextEntry(text);
         }
 
         private void PositionNearCursor()
