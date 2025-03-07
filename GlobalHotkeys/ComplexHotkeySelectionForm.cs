@@ -57,6 +57,8 @@ namespace GlobalHotkeys
                 flowLayoutPanel.Controls.Add(new Label
                 {
                     Text = "Recently used:",
+                    ForeColor = Color.White,
+                    Margin = new Padding(5, 5, 5, 0)
                 });
                 AddAccount(LastUsedAccount.Value, account);
                 flowLayoutPanel.Controls.Add(new Label
@@ -106,6 +108,7 @@ namespace GlobalHotkeys
             {
                 Text = account.Item1,
                 TextAlign = ContentAlignment.MiddleLeft,
+                ForeColor = Color.White,
                 AutoEllipsis = true,
                 Size = new Size(100, 23),
                 Margin = new Padding(3)
@@ -114,9 +117,13 @@ namespace GlobalHotkeys
             var usernameButton = new Button()
             {
                 Text = account.Item2,
+                BackColor = Color.FromArgb(52, 52, 52),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
                 Width = 100,
                 AutoEllipsis = true
             };
+            usernameButton.FlatAppearance.BorderSize = 0;
             usernameButton.Click += (sender, e) =>
             {
                 PasteText(account.Item2);
@@ -128,9 +135,13 @@ namespace GlobalHotkeys
             var passwordButton = new Button()
             {
                 Text = account.Item3,
+                BackColor = Color.FromArgb(52, 52, 52),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
                 Width = 100,
                 AutoEllipsis = true
             };
+            passwordButton.FlatAppearance.BorderSize = 0;
             passwordButton.Click += (sender, e) =>
             {
                 PasteText(account.Item3);
