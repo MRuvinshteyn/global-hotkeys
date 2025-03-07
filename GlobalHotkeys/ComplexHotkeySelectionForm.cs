@@ -34,7 +34,8 @@ namespace GlobalHotkeys
                 { new Guid("841466a8-9a2e-4013-90a0-f5f03f81ce05"), ("Account 7", "Username 7", "Password 7") },
                 { new Guid("9195ee4e-089b-4fd0-a59f-88119b0faab6"), ("Account 8", "Username 8", "Password 8") },
                 { new Guid("4c9080da-107b-4695-a787-5bbbee88ece4"), ("Account 9", "Username 9", "Password 9") },
-                { new Guid("f9f8121c-cb42-484b-9f44-ee6e70660c55"), ("Account 10", "Username 10", "Password 10") }
+                { new Guid("f9f8121c-cb42-484b-9f44-ee6e70660c55"), ("Account 10", "Username 10", "Password 10") },
+                { new Guid("9ad10d6c-68e6-4957-bcd7-9ebad4c7c6dd"), ("Special Account", "A%kD5rzr&A", "HZ+@#!emdj") },
             };
 
             PopulateAccounts();
