@@ -1,3 +1,5 @@
+using GlobalTextExpansion;
+
 namespace CentralTrayApplication
 {
     internal static class Program
@@ -11,10 +13,15 @@ namespace CentralTrayApplication
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            TextExpander expander = new TextExpander();
+            expander.Start();
+
             using (TrayApplication app = new TrayApplication())
             {
                 Application.Run();
             }
+
+            expander.Stop();
         }
     }
 }
