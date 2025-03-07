@@ -59,14 +59,24 @@ namespace GlobalHotkeys
                 return;
             }
 
-            SetForegroundWindow(previousWindow);
-            for (int i = 0; GetForegroundWindow() != previousWindow && i < 20; ++i)
+            try
             {
-                Thread.Sleep(100); // Wait up to 2 seconds for previous window to be in focus
-            }
+                SetForegroundWindow(previousWindow);
+                for (int i = 0; GetForegroundWindow() != previousWindow && i < 20; ++i)
+                {
+                    Thread.Sleep(100); // Wait up to 2 seconds for previous window to be in focus
+                }
 
-            var sim = new InputSimulator();
-            sim.Keyboard.TextEntry(text);
+                if (GetForegroundWindow() == previousWindow)
+                {
+                    var sim = new InputSimulator();
+                    sim.Keyboard.TextEntry(text);
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Could not switch to previous window");
+            }
         }
 
         private void PositionNearCursor()
