@@ -1,5 +1,6 @@
 ﻿using GlobalHotkeys;
 using System.Runtime.InteropServices;
+using WindowsInput;
 
 namespace CentralTrayApplication
 {
@@ -44,19 +45,33 @@ namespace CentralTrayApplication
                 using (Form hiddenForm = new Form())
                 {
                     handle = hiddenForm.Handle; // Creates a hidden window to register the hotkey
-                    bool registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_1, HotkeyGlobals.MOD_CONTROL_SHIFT, HotkeyGlobals.VK_U);
+                    bool registered;
+
+                    registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_1, HotkeyGlobals.MOD_CONTROL_ALT, HotkeyGlobals.VK_A);
+                    if (!registered)
+                    {
+                        MessageBox.Show("Failed to register username hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_2, HotkeyGlobals.MOD_CONTROL_ALT, HotkeyGlobals.VK_S);
+                    if (!registered)
+                    {
+                        MessageBox.Show("Failed to register password hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_3, HotkeyGlobals.MOD_CONTROL_SHIFT, HotkeyGlobals.VK_U);
                     if (!registered)
                     {
                         MessageBox.Show("Failed to register simple hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_2, HotkeyGlobals.MOD_CONTROL_SHIFT, HotkeyGlobals.VK_I);
+                    registered = RegisterHotKey(handle, HotkeyGlobals.HOTKEY_ID_4, HotkeyGlobals.MOD_CONTROL_SHIFT, HotkeyGlobals.VK_I);
                     if (!registered)
                     {
                         MessageBox.Show("Failed to register complex hotkey. It may be in use by another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    Application.AddMessageFilter(new HotkeyMessageFilter(ShowSimpleSelectionWindow, ShowComplexSelectionWindow));
+                    Application.AddMessageFilter(new HotkeyMessageFilter(PasteUsername, PastePassword, ShowSimpleSelectionWindow, ShowComplexSelectionWindow));
                     Application.Run();
                 }
             })
@@ -65,6 +80,18 @@ namespace CentralTrayApplication
             };
             messageLoopThread.SetApartmentState(ApartmentState.STA);
             messageLoopThread.Start();
+        }
+
+        private void PasteUsername()
+        {
+            var sim = new InputSimulator();
+            sim.Keyboard.TextEntry("Username 1");
+        }
+
+        private void PastePassword()
+        {
+            var sim = new InputSimulator();
+            sim.Keyboard.TextEntry("Password 1");
         }
 
         private void ShowSimpleSelectionWindow()
